@@ -11,7 +11,7 @@ class SaveBooks extends Component {
   state = {
     books: [],
     title: "",
-    author: "",
+    authors: "",
     description: ""
   };
 
@@ -22,7 +22,7 @@ class SaveBooks extends Component {
   loadBooks = () => {
     API.getBooks()
       .then(res =>
-        this.setState({ books: res.data, title: "", author: "", description: "" })
+        this.setState({ books: res.data, title: "", authors: "", description: "" })
       )
       .catch(err => console.log(err));
   };
@@ -42,10 +42,10 @@ class SaveBooks extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.title && this.state.author) {
+    if (this.state.title && this.state.authors) {
       API.saveBook({
         title: this.state.title,
-        author: this.state.author,
+        authors: this.state.authors,
         description: this.state.description
       })
         .then(res => this.loadBooks())
@@ -69,10 +69,10 @@ class SaveBooks extends Component {
                 placeholder="Title (required)"
               />
               <Input
-                value={this.state.author}
+                value={this.state.authors}
                 onChange={this.handleInputChange}
-                name="author"
-                placeholder="Author (required)"
+                name="authors"
+                placeholder="Authors (required)"
               />
               <TextArea
                 value={this.state.description}
@@ -81,7 +81,7 @@ class SaveBooks extends Component {
                 placeholder="Description (Optional)"
               />
               <FormBtn
-                disabled={!(this.state.author && this.state.title)}
+                disabled={!(this.state.authors && this.state.title)}
                 onClick={this.handleFormSubmit}
               >
                 Submit Book
@@ -98,7 +98,7 @@ class SaveBooks extends Component {
                   <ListItem key={book._id}>
                     <Link to={"/books/" + book._id}>
                       <strong>
-                        {book.title} by {book.author}
+                        {book.title} by {book.authors}
                       </strong>
                     </Link>
                     <DeleteBtn onClick={() => this.deleteBook(book._id)} />
